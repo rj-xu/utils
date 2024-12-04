@@ -1,61 +1,92 @@
 #pragma once
 
-#define _FE_CALL_00(A, B) A##B
-#define _FE_CALL_01(A, B) A##B
-#define _FE_CALL_02(A, B) A##B
-#define _FE_CALL_03(A, B) A##B
-#define _FE_CALL_04(A, B) A##B
-#define _FE_CALL_04(A, B) A##B
-#define _FE_CALL_05(A, B) A##B
-#define _FE_CALL_06(A, B) A##B
-#define _FE_CALL_07(A, B) A##B
-#define _FE_CALL_08(A, B) A##B
-#define _FE_CALL_09(A, B) A##B
-#define _FE_CALL_10(A, B) A##B
-#define _FE_CALL_11(A, B) A##B
-#define _FE_CALL_12(A, B) A##B
-#define _FE_CALL_13(A, B) A##B
-#define _FE_CALL_14(A, B) A##B
-#define _FE_CALL_15(A, B) A##B
-#define _FE_CALL_16(A, B) A##B
+#include "args.h"
+#include "concat.h"
 
 // clang-format off
-#define _FE_N00()
-#define _FE_N01(Func, A, args...) Func(A);
-#define _FE_N02(Func, A, args...) Func(A); _FE_CALL_01(_FE_N01, (Func, ##args))
-#define _FE_N03(Func, A, args...) Func(A); _FE_CALL_02(_FE_N02, (Func, ##args))
-#define _FE_N04(Func, A, args...) Func(A); _FE_CALL_03(_FE_N03, (Func, ##args))
-#define _FE_N05(Func, A, args...) Func(A); _FE_CALL_04(_FE_N04, (Func, ##args))
-#define _FE_N06(Func, A, args...) Func(A); _FE_CALL_05(_FE_N05, (Func, ##args))
-#define _FE_N07(Func, A, args...) Func(A); _FE_CALL_06(_FE_N06, (Func, ##args))
-#define _FE_N08(Func, A, args...) Func(A); _FE_CALL_07(_FE_N07, (Func, ##args))
-#define _FE_N09(Func, A, args...) Func(A); _FE_CALL_08(_FE_N08, (Func, ##args))
-#define _FE_N10(Func, A, args...) Func(A); _FE_CALL_09(_FE_N09, (Func, ##args))
-#define _FE_N11(Func, A, args...) Func(A); _FE_CALL_10(_FE_N10, (Func, ##args))
-#define _FE_N12(Func, A, args...) Func(A); _FE_CALL_11(_FE_N11, (Func, ##args))
-#define _FE_N13(Func, A, args...) Func(A); _FE_CALL_12(_FE_N12, (Func, ##args))
-#define _FE_N14(Func, A, args...) Func(A); _FE_CALL_13(_FE_N13, (Func, ##args))
-#define _FE_N15(Func, A, args...) Func(A); _FE_CALL_14(_FE_N14, (Func, ##args))
-#define _FE_N16(Func, A, args...) Func(A); _FE_CALL_15(_FE_N15, (Func, ##args))
-#define _FE_N17(...) "ERROR: FOR_EACH ONLY supports up to 16 args"
+#define _FOR_EACH_1( Func, a0, args...) Func(a0)
+#define _FOR_EACH_2( Func, a0, args...) Func(a0); _FOR_EACH_1( Func, args)
+#define _FOR_EACH_3( Func, a0, args...) Func(a0); _FOR_EACH_2( Func, args)
+#define _FOR_EACH_4( Func, a0, args...) Func(a0); _FOR_EACH_3( Func, args)
+#define _FOR_EACH_5( Func, a0, args...) Func(a0); _FOR_EACH_4( Func, args)
+#define _FOR_EACH_6( Func, a0, args...) Func(a0); _FOR_EACH_5( Func, args)
+#define _FOR_EACH_7( Func, a0, args...) Func(a0); _FOR_EACH_6( Func, args)
+#define _FOR_EACH_8( Func, a0, args...) Func(a0); _FOR_EACH_7( Func, args)
+#define _FOR_EACH_9( Func, a0, args...) Func(a0); _FOR_EACH_8( Func, args)
+#define _FOR_EACH_10(Func, a0, args...) Func(a0); _FOR_EACH_9( Func, args)
+#define _FOR_EACH_11(Func, a0, args...) Func(a0); _FOR_EACH_10(Func, args)
+#define _FOR_EACH_12(Func, a0, args...) Func(a0); _FOR_EACH_11(Func, args)
+#define _FOR_EACH_13(Func, a0, args...) Func(a0); _FOR_EACH_12(Func, args)
+#define _FOR_EACH_14(Func, a0, args...) Func(a0); _FOR_EACH_13(Func, args)
+#define _FOR_EACH_15(Func, a0, args...) Func(a0); _FOR_EACH_14(Func, args)
+#define _FOR_EACH_16(Func, a0, args...) Func(a0); _FOR_EACH_15(Func, args)
+#define _FOR_EACH_17(Func, a0, args...) Func(a0); _FOR_EACH_16(Func, args)
+#define _FOR_EACH_18(Func, a0, args...) Func(a0); _FOR_EACH_17(Func, args)
+#define _FOR_EACH_19(Func, a0, args...) Func(a0); _FOR_EACH_18(Func, args)
+#define _FOR_EACH_20(Func, a0, args...) Func(a0); _FOR_EACH_19(Func, args)
+#define _FOR_EACH_21(Func, a0, args...) Func(a0); _FOR_EACH_20(Func, args)
+#define _FOR_EACH_22(Func, a0, args...) Func(a0); _FOR_EACH_21(Func, args)
+#define _FOR_EACH_23(Func, a0, args...) Func(a0); _FOR_EACH_22(Func, args)
+#define _FOR_EACH_24(Func, a0, args...) Func(a0); _FOR_EACH_23(Func, args)
+#define _FOR_EACH_25(Func, a0, args...) Func(a0); _FOR_EACH_24(Func, args)
+#define _FOR_EACH_26(Func, a0, args...) Func(a0); _FOR_EACH_25(Func, args)
+#define _FOR_EACH_27(Func, a0, args...) Func(a0); _FOR_EACH_26(Func, args)
+#define _FOR_EACH_28(Func, a0, args...) Func(a0); _FOR_EACH_27(Func, args)
+#define _FOR_EACH_29(Func, a0, args...) Func(a0); _FOR_EACH_28(Func, args)
+#define _FOR_EACH_30(Func, a0, args...) Func(a0); _FOR_EACH_29(Func, args)
+#define _FOR_EACH_31(Func, a0, args...) Func(a0); _FOR_EACH_30(Func, args)
+#define _FOR_EACH_32(Func, a0, args...) Func(a0); _FOR_EACH_31(Func, args)
 // clang-format on
 
-#define _FE_NUM(_0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _14, _15, _16, _17,    \
-                NUM, args...)                                                                      \
-    NUM
 #define FOR_EACH(Func, args...)                                                                    \
     do                                                                                             \
     {                                                                                              \
-        _FE_CALL_00(_FE_NUM(_0, ##args, _FE_N17, _FE_N16, _FE_N15, _FE_N14, _FE_N13, _FE_N12,      \
-                            _FE_N11, _FE_N10, _FE_N09, _FE_N08, _FE_N07, _FE_N06, _FE_N05,         \
-                            _FE_N04, _FE_N03, _FE_N02, _FE_N01, _FE_N00),                          \
-                    (Func, ##args))                                                                \
+        CONCAT(_FOR_EACH_, COUNT_ARGS(args))(Func, args);                                          \
     } while (0)
 
 // FOR_EACH();
-// FOR_EACH(DO);
-// FOR_EACH(DO,0);
-// FOR_EACH(DO,0,1);
-// FOR_EACH(DO,0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15);
-// FOR_EACH(DO,0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16);
-// FOR_EACH(DO,0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17);
+// FOR_EACH(Do);
+// FOR_EACH(Do, a0);
+// FOR_EACH(Do, a0, a1);
+// FOR_EACH(Do, a0, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, a13, a14, a15);
+// FOR_EACH(Do, a0, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, a13, a14, a15, a16);
+// FOR_EACH(Do, a0, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, a13, a14, a15, a16, a17);
+
+// clang-format off
+#define _FOR_EACH_ALT_1( Func, a0, args...) Func(a0)
+#define _FOR_EACH_ALT_2( Func, a0, args...) Func(a0), _FOR_EACH_ALT_1(Func, args)
+#define _FOR_EACH_ALT_3( Func, a0, args...) Func(a0), _FOR_EACH_ALT_2(Func, args)
+#define _FOR_EACH_ALT_4( Func, a0, args...) Func(a0), _FOR_EACH_ALT_3(Func, args)
+#define _FOR_EACH_ALT_5( Func, a0, args...) Func(a0), _FOR_EACH_ALT_4(Func, args)
+#define _FOR_EACH_ALT_6( Func, a0, args...) Func(a0), _FOR_EACH_ALT_5(Func, args)
+#define _FOR_EACH_ALT_7( Func, a0, args...) Func(a0), _FOR_EACH_ALT_6(Func, args)
+#define _FOR_EACH_ALT_8( Func, a0, args...) Func(a0), _FOR_EACH_ALT_7(Func, args)
+#define _FOR_EACH_ALT_9( Func, a0, args...) Func(a0), _FOR_EACH_ALT_8(Func, args)
+#define _FOR_EACH_ALT_10(Func, a0, args...) Func(a0), _FOR_EACH_ALT_9(Func, args)
+#define _FOR_EACH_ALT_11(Func, a0, args...) Func(a0), _FOR_EACH_ALT_10(Func, args)
+#define _FOR_EACH_ALT_12(Func, a0, args...) Func(a0), _FOR_EACH_ALT_11(Func, args)
+#define _FOR_EACH_ALT_13(Func, a0, args...) Func(a0), _FOR_EACH_ALT_12(Func, args)
+#define _FOR_EACH_ALT_14(Func, a0, args...) Func(a0), _FOR_EACH_ALT_13(Func, args)
+#define _FOR_EACH_ALT_15(Func, a0, args...) Func(a0), _FOR_EACH_ALT_14(Func, args)
+#define _FOR_EACH_ALT_16(Func, a0, args...) Func(a0), _FOR_EACH_ALT_15(Func, args)
+#define _FOR_EACH_ALT_17(Func, a0, args...) Func(a0), _FOR_EACH_ALT_16(Func, args)
+#define _FOR_EACH_ALT_18(Func, a0, args...) Func(a0), _FOR_EACH_ALT_17(Func, args)
+#define _FOR_EACH_ALT_19(Func, a0, args...) Func(a0), _FOR_EACH_ALT_18(Func, args)
+#define _FOR_EACH_ALT_20(Func, a0, args...) Func(a0), _FOR_EACH_ALT_19(Func, args)
+#define _FOR_EACH_ALT_21(Func, a0, args...) Func(a0), _FOR_EACH_ALT_20(Func, args)
+#define _FOR_EACH_ALT_22(Func, a0, args...) Func(a0), _FOR_EACH_ALT_21(Func, args)
+#define _FOR_EACH_ALT_23(Func, a0, args...) Func(a0), _FOR_EACH_ALT_22(Func, args)
+#define _FOR_EACH_ALT_24(Func, a0, args...) Func(a0), _FOR_EACH_ALT_23(Func, args)
+#define _FOR_EACH_ALT_25(Func, a0, args...) Func(a0), _FOR_EACH_ALT_24(Func, args)
+#define _FOR_EACH_ALT_26(Func, a0, args...) Func(a0), _FOR_EACH_ALT_25(Func, args)
+#define _FOR_EACH_ALT_27(Func, a0, args...) Func(a0), _FOR_EACH_ALT_26(Func, args)
+#define _FOR_EACH_ALT_28(Func, a0, args...) Func(a0), _FOR_EACH_ALT_27(Func, args)
+#define _FOR_EACH_ALT_29(Func, a0, args...) Func(a0), _FOR_EACH_ALT_28(Func, args)
+#define _FOR_EACH_ALT_30(Func, a0, args...) Func(a0), _FOR_EACH_ALT_29(Func, args)
+#define _FOR_EACH_ALT_31(Func, a0, args...) Func(a0), _FOR_EACH_ALT_30(Func, args)
+#define _FOR_EACH_ALT_32(Func, a0, args...) Func(a0), _FOR_EACH_ALT_31(Func, args)
+// clang-format on
+
+#define FOR_EACH_ALT(Func, args...) CONCAT(_FOR_EACH_ALT_, COUNT_ARGS(args))(Func, args)
+
+// FOR_EACH_ALT(Do, a0, a1, a2)

@@ -10,11 +10,11 @@ typedef enum
     LOG_LV_INFO,
     LOG_LV_WARN,
     LOG_LV_ERROR,
-    LOG_LV_FATAL,
+    // LOG_LV_FATAL,
 } LogLv_t;
 
+// #define LOG_LV LOG_LV_TRACE
 #define LOG_LV LOG_LV_DEBUG
-// extern LogLv_t g_log_lv;
 
 // clang-format off
 #define ANSI_COLOR_BLACK   "\x1b[30m"
@@ -35,7 +35,9 @@ typedef enum
     {                                                                                              \
         if (lv >= LOG_LV)                                                                          \
         {                                                                                          \
-            printf(color "[%s] " fmt ENDL, tag, ##args);                                           \
+            printf(color "[%s] ", tag);                                                            \
+            printf(fmt, ##args);                                                                   \
+            printf(ENDL);                                                                          \
         }                                                                                          \
     } while (0)
 
@@ -44,17 +46,18 @@ typedef enum
     {                                                                                              \
         if (lv >= LOG_LV)                                                                          \
         {                                                                                          \
-            printf(color "[%s] " fmt " (%s(%d) in %s())" ENDL, tag, ##args, __FILE__, __LINE__,    \
-                   __func__);                                                                      \
+            printf(color "[%s] ", tag);                                                            \
+            printf(fmt, ##args);                                                                   \
+            printf(ANSI_COLOR_MAGENTA " (%s(%d) in %s())" ENDL, __FILE__, __LINE__, __func__);     \
         }                                                                                          \
     } while (0)
 
-#define LOG_PRINT_TAG(lv, tag, color, fmt, args...)                                                \
+#define LOG_PRINT_TAG(lv, tag, color)                                                              \
     do                                                                                             \
     {                                                                                              \
         if (lv >= LOG_LV)                                                                          \
         {                                                                                          \
-            printf(color "[%s] " fmt, tag, ##args);                                                \
+            printf(color "[%s] ", tag);                                                            \
         }                                                                                          \
     } while (0)
 
@@ -67,11 +70,11 @@ typedef enum
 // clang-format on
 
 // clang-format off
-#define LOG_TAG_TRACE(fmt, args...) LOG_PRINT_TAG(LOG_LV_TRACE, "TRACE", ANSI_COLOR_CYAN  , fmt, ##args)
-#define LOG_TAG_DEBUG(fmt, args...) LOG_PRINT_TAG(LOG_LV_DEBUG, "DEBUG", ANSI_COLOR_BLUE  , fmt, ##args)
-#define LOG_TAG_INFO( fmt, args...) LOG_PRINT_TAG(LOG_LV_INFO , "INFO ", ANSI_COLOR_GREEN , fmt, ##args)
-#define LOG_TAG_WARN( fmt, args...) LOG_PRINT_TAG(LOG_LV_WARN , "WARN ", ANSI_COLOR_YELLOW, fmt, ##args)
-#define LOG_TAG_ERROR(fmt, args...) LOG_PRINT_TAG(LOG_LV_ERROR, "ERROR", ANSI_COLOR_RED   , fmt, ##args)
+#define LOG_TAG_TRACE(fmt, args...) LOG_PRINT_TAG(LOG_LV_TRACE, "TRACE", ANSI_COLOR_CYAN  )
+#define LOG_TAG_DEBUG(fmt, args...) LOG_PRINT_TAG(LOG_LV_DEBUG, "DEBUG", ANSI_COLOR_BLUE  )
+#define LOG_TAG_INFO( fmt, args...) LOG_PRINT_TAG(LOG_LV_INFO , "INFO ", ANSI_COLOR_GREEN )
+#define LOG_TAG_WARN( fmt, args...) LOG_PRINT_TAG(LOG_LV_WARN , "WARN ", ANSI_COLOR_YELLOW)
+#define LOG_TAG_ERROR(fmt, args...) LOG_PRINT_TAG(LOG_LV_ERROR, "ERROR", ANSI_COLOR_RED   )
 // clang-format on
 
 #define TRACE TRACE
@@ -82,6 +85,15 @@ typedef enum
 #define FATAL FATAL
 
 #define LOG(LV, fmt, args...) LOG_##LV(fmt, ##args)
-#define LOG_TAG(LV, fmt, args...) LOG_TAG_##LV(fmt, ##args)
+#define LOG_TAG(LV) LOG_TAG_##LV()
+#define LOG_PRINTF(LV, fmt, args...)                                                               \
+    do                                                                                             \
+    {                                                                                              \
+        if (LOG_LV_##LV >= LOG_LV)                                                                 \
+        {                                                                                          \
+            printf(fmt, ##args);                                                                   \
+        }                                                                                          \
+    } while (0)
+#define LOG_ENDL(lv) LOG_PRINTF(lv, ENDL)
 
-void PrintBanner();
+void LogBanner();

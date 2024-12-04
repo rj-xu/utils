@@ -17,20 +17,22 @@
         uint32_t: s "0x%08lx" e,                                                                   \
         uint16_t: s "0x%04x" e,                                                                    \
         uint8_t: s "0x%02x" e,                                                                     \
-        int: s "%d" e,                                                                             \
+        int: s "%+d" e,                                                                            \
+        unsigned int: s "%u" e,                                                                    \
         char: s "%c" e,                                                                            \
         bool: s "%d" e,                                                                            \
         void *: s "%p" e,                                                                          \
-        default: "UNKOWN TYPE\r\n")
+        default: s "%d(UNKOWN TYPE)" e)
 
-#define _PRINT_FUNC(lv)                                                                            \
+#define LOG_FUNC(lv)                                                                               \
     do                                                                                             \
     {                                                                                              \
         LOG(lv, LINE);                                                                             \
-        LOG(lv, " %s() in %s(%d) ", __func__, __FILE__, __LINE__);                                 \
+        LOG(lv, "%s() in %s(%d)", __func__, __FILE__, __LINE__);                                   \
         LOG(lv, LINE);                                                                             \
     } while (0)
+#define LOG_DEBUG_FUNC() LOG_FUNC(DEBUG)
 
-#define PRINT_FUNC(...) _PRINT_FUNC(DEFAULT(DEBUG, __VA_ARGS__))
-
-#define PRINT_VAL(lv, val) LOG(lv, PRI("", val, ""), val)
+#define LOG_VAL(lv, val) LOG(lv, PRI(#val " = ", val, ""), val)
+#define LOG_DEBUG_VAL(val) LOG_VAL(DEBUG, val)
+#define LOG_TRACE_VAL(val) LOG_VAL(TRACE, val)

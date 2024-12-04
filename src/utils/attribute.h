@@ -53,4 +53,8 @@
 #define __UNUSED __attribute__((unused))
 #endif
 
+#ifndef __CLEANUP
+#define __CLEANUP(Func) __attribute__((cleanup(Func)))
+#endif
+
 // NOLINTEND(bugprone-reserved-identifier, readability-identifier-naming)
