@@ -1,4 +1,4 @@
-#include "peripheral.h"
+#include "reg/reg.h"
 #include "reg32.h"
 #include "wait_for.h"
 

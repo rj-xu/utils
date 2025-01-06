@@ -7,6 +7,7 @@
 #include "build_bug.h"
 #include "concat.h"
 #include "container_of.h"
+#include "endian.h"
 #include "enum.h"
 #include "for_each.h"
 #include "log.h"

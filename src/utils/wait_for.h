@@ -2,6 +2,8 @@
 
 #include <stdbool.h>
 
+#include "args.h"
+
 #define TIMEOUT 100
 
 #define LOOP_FOR(condition)                                                                        \
@@ -11,12 +13,14 @@
         {                                                                                          \
         }                                                                                          \
     } while (0)
+
 #define LOOP() LOOP_FOR(false)
 
-#define _WAIT_FOR(condition, timeout)                                                              \
+#define WAIT_FOR(condition, timeout...)                                                            \
     ({                                                                                             \
         bool _is_timeout = true;                                                                   \
-        for (int _i = 0; _i < (timeout); _i++)                                                     \
+        int _timeout = DEFAULT(TIMEOUT, ##timeout);                                                \
+        while (_timeout--)                                                                         \
         {                                                                                          \
             if (condition)                                                                         \
             {                                                                                      \
@@ -26,4 +30,13 @@
         }                                                                                          \
         _is_timeout;                                                                               \
     })
-#define WAIT_FOR(condition, timeout...) _WAIT_FOR(condition, DEFAULT(TIMEOUT, timeout))
+
+#define WAIT(timeout...)                                                                           \
+    do                                                                                             \
+    {                                                                                              \
+        int _timeout = DEFAULT(TIMEOUT, ##timeout);                                                \
+        while (_timeout--)                                                                         \
+        {                                                                                          \
+            __asm__ volatile("nop");                                                               \
+        }                                                                                          \
+    } while (0)

@@ -5,32 +5,36 @@
 
 #include "args.h"
 
-#define BITS CHAR_BIT // 1 Byte = 8 Bits
+// #define BITS CHAR_BIT // 1 Byte = 8 Bits
+#define BITS 8UL // 1 Byte = 8 Bits
 
-#define B 1            // 1 B
-#define KB (1024 * B)  // 1 KB = 1024 B
+#define KB 1024UL      // 1 KB = 1024 Bytes
 #define MB (1024 * KB) // 1 MB = 1024 KB
 #define GB (1024 * MB) // 1 GB = 1024 MB
 
-#define WORD 4           // 1 Word = 4 Bytes (for 32-bit machine)
+#define WORD 4UL         // 1 Word = 4 Bytes (for 32-bit machine)
 #define DWORD (2 * WORD) // 1 DWord = 8 Bytes
 #define QWORD (4 * WORD) // 1 QWord = 16 Bytes
 
-#define PAGE 16  // 1 Page = 16 Bytes
-#define BLOCK 16 // 1 Block = 16 Bytes (for AES-128)
+#define PAGE 16UL  // 1 Page = 16 Bytes
+#define BLOCK 16UL // 1 Block = 16 Bytes (for AES-128)
+
+// Use compiler optimize option
+#define DIV(x, y) {(x) / (y) * (y), (x) % (y)}
+#define DIV_FLOOR(n, d) ((n) / (d))
+#define DIV_ROUND(n, d) (((n) + (d) - 1) / (d))
+#define ROUND_UP(x, y) (DIV_ROUND(x, y) * (y))
 
 #define ENABLE 1
 #define DISABLE 0
 
 #define BIT(bit) (1UL << (bit))
 #define MASK(x, n) (((1UL << (n)) - 1) << (x))
-#define MASK_ALL (-1UL) // 0xFFFFFFFF
+#define BYTE(x, n...) MASK((x) * 8, DEFAULT(1, n) * 8)
+#define ALL_MASK (-1UL) // 0xFFFFFFFF
 
-#define BIT_MASK(x, n...) MASK(x, DEFAULT(1, n))
-#define BYTE_MASK(x, n...) MASK((x) * 8, DEFAULT(1, n) * 8)
-
-#define BIT_FIELD(val, x, n) (((val) & MASK(x, n)) >> (x))
-#define BYTE_FIELD(val, x) ((uint8_t)BIT_FIELD(val, (x) * 8, 8))
+#define BIT_FIELD(val, x, n...) (((val) & MASK(x, DEFAULT(1, n))) >> (x))
+#define BYTE_FIELD(val, x, n...) BIT_FIELD(val, (x) * 8, (DEFAULT(1, n) * 8))
 
 // Find the first set bit (31-0), if 0 return -1
 #define BIT_FFS(mask) (__builtin_ffs(mask) - 1)
@@ -65,16 +69,24 @@
         (reg) ^= (mask);                                                                           \
     } while (0)
 
+#define ASSIGN(reg, x, n, val)                                                                     \
+    do                                                                                             \
+    {                                                                                              \
+        (reg) = ((reg) & ~MASK(x, n)) | (((val) << (x)) & MASK(x, n));                             \
+    } while (0)
+
 #define _TRIGGER(reg, en)                                                                          \
     do                                                                                             \
     {                                                                                              \
         (reg) = (en);                                                                              \
-        (reg) = !(en);                                                                             \
+        (reg) = 0;                                                                                 \
     } while (0)
 #define TRIGGER(reg, en...) _TRIGGER(reg, DEFAULT(ENABLE, en))
 
-static inline uint32_t EndianChange(uint32_t value)
-{
-    return ((value & 0xFF000000) >> 24) | ((value & 0x00FF0000) >> 8) |
-           ((value & 0x0000FF00) << 8) | ((value & 0x000000FF) << 24);
-}
+#define _CLEAR_TRIGGER(reg, en)                                                                    \
+    do                                                                                             \
+    {                                                                                              \
+        (reg) = 0;                                                                                 \
+        (reg) = (en);                                                                              \
+    } while (0)
+#define CLEAR_TRIGGER(reg, en...) _CLEAR_TRIGGER(reg, DEFAULT(ENABLE, en))

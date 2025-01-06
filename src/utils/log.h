@@ -13,8 +13,8 @@ typedef enum
     // LOG_LV_FATAL,
 } LogLv_t;
 
-// #define LOG_LV LOG_LV_TRACE
 #define LOG_LV LOG_LV_DEBUG
+#define LOG_LV LOG_LV_TRACE
 
 // clang-format off
 #define ANSI_COLOR_BLACK   "\x1b[30m"
